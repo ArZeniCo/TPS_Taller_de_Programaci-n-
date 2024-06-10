@@ -1,0 +1,59 @@
+# Usar Usuario, Clave y Base de Datos con su propia información, por ejemplo:
+# POSTGRES_USER: gonzalezj       --->>> su apellido más la primera letra de su nombre
+# POSTGRES_PASSWORD: Jesus556    --->>> una clave que ud. elija
+# POSTGRES_DB: Prueba            --->>> la Base de Datos deberá tener el nombre de Prueba 
+# Usar Usuario, Clave y Base de Datos con su propia información, por ejemplo:
+# POSTGRES_USER: gonzalezj       --->>> su apellido más la primera letra de su nombre
+# POSTGRES_PASSWORD: Jesus556    --->>> una clave que ud. elija
+# POSTGRES_DB: Prueba            --->>> la Base de Datos deberá tener el nombre de Prueba 
+
+version: '3.1'
+
+services:
+  db_postgres:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: LlampaJose
+      POSTGRES_PASSWORD: DosmilDos
+      POSTGRES_DB: Prueba
+    networks:
+      - my_network
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - my_network
+
+  db_mysql:
+    image: mysql
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: prueba
+      MYSQL_USER: LlampaJose
+      MYSQL_PASSWORD: DosmilDos
+    networks:
+      - my_network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db_mysql
+      MYSQL_ROOT_PASSWORD: rootpassword
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge
